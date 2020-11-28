@@ -11,11 +11,12 @@ class DefaultController extends AbstractController
 {
     public function index(MessageBusInterface $bus)
     {
-        // will cause the SmsNotificationHandler to be called
-        $bus->dispatch(new SmsNotification('Look! I created a message!'));
+        $i = 0;
+        while ($i < 10000) {
+            $bus->dispatch(new SmsNotification('Look! I created a message!'));
+            $i++;
+        }
 
-        // or use the shortcut
-        $this->dispatchMessage(new SmsNotification('Look! I created a message!'));
 
         return new Response('123');
     }

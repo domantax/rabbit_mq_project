@@ -37,3 +37,12 @@ services:
             - php-fpm
         ports:
             - "80:80"
+
+    rabbitmq:
+        image: rabbitmq:3-management
+        container_name: rabbitmq
+        ports:
+            - "15672:15672"
+            - "5672:5672"
+        volumes:
+            - ./rabbit-mq:/var/lib/rabbitmq:cached
