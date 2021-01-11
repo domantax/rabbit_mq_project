@@ -2,22 +2,23 @@
 
 namespace App\Controller;
 
-use App\Message\SmsNotification;
+use App\Message\OrderMessage;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 class DefaultController extends AbstractController
 {
-    public function index(MessageBusInterface $bus)
+    public function index()
     {
-        $i = 0;
-        while ($i < 10000) {
-            $bus->dispatch(new SmsNotification('Look! I created a message!'));
-            $i++;
-        }
+        return $this->render('home/index.html.twig');
+    }
 
+    public function sendOrder(MessageBusInterface $bus)
+    {
+        $bus->dispatch(
+            new OrderMessage('New Order')
+        );
 
-        return new Response('123');
+        return $this->redirectToRoute('index');
     }
 }

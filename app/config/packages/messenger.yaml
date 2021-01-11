@@ -1,10 +1,14 @@
 framework:
     messenger:
-        # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
-        # failure_transport: failed
-
         transports:
-            rabbit_mq: "%env(MESSENGER_TRANSPORT_DSN)%"
-
+            rabbit_mq:
+                dsn: "%env(MESSENGER_TRANSPORT_DSN)%"
+                options:
+                    exchange:
+                        name: emails
+                        type: fanout
+                    queues:
+                        admin_email: ~
+                        customer_emails: ~
         routing:
-            'App\Message\SmsNotification':  rabbit_mq
+            'App\Message\OrderMessage':  rabbit_mq
